@@ -57,7 +57,7 @@ public:
 
 class Server{
 public:
-   unsigned int board_size;
+   unsigned int board_size = BOARD_SIZE;
 
 private:
 

@@ -33,7 +33,7 @@ int get_file_length(ifstream *file){
 
 
 void Server::initialize(unsigned int board_size,
-                        const char *p1_setup_board,
+                        string p1_setup_board,
                         string p2_setup_board) {
     //Validate parameters
     std::string p1Board(p1_setup_board);
@@ -154,5 +154,43 @@ int Server::process_shot(unsigned int player) {
     }
 
     return NO_SHOT_FILE;
+
+}
+
+BitArray2D *Server::scan_setup_board(string setup_board_name) {
+    // create BitArray2D
+    BitArray2D bitArray = BitArray2D(BOARD_SIZE, BOARD_SIZE);
+
+    // scan in setup board
+    ifstream setupBoard;
+    setupBoard.open(setup_board_name, ifstream::in);
+    if (!setupBoard) { // check that the setup board opened
+        throw "Bad board name!";
+    }
+
+    // collect ship positions
+    vector<string> lines(board_size, "");
+    string curLine;
+    int i = 0;
+    while (getline(setupBoard, curLine)) {
+        lines[i] = curLine;
+        i++;
+    }
+
+    // set positions in the bit board
+    char space;
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+            space = lines[i].at(j);
+            if (space != '_') {
+                bitArray.set(i, j);
+            }
+        }
+    }
+
+    return &bitArray;
+}
+
+Server::~Server() {
 
 }
