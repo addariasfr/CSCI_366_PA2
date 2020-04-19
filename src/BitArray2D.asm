@@ -14,7 +14,7 @@ set_bit_elem:
 
         ; get index of bit
         mov rax, rdx        ; get row
-        imul rsi       ; multiply by row width
+        imul rsi            ; multiply by row width
         add rax, rcx        ; add column
         mov rcx, rax        ; move index into rcx
 
